@@ -110,7 +110,7 @@
 }
 
 #pragma mark - AliyunVodPlayerDelegate
-- (void)vodPlayer:(AliPlayer *)vodPlayer onEventCallback:(AVPEventType)event{
+- (void)onPlayerEvent:(AliPlayer *)vodPlayer eventType:(AVPEventType)event{
   NSLog(@"onEventCallback: %ld", event);
   
   NSMutableDictionary *callbackExt = [NSMutableDictionary dictionary];
