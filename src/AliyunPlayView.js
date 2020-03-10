@@ -36,7 +36,7 @@ export default class AliyunPlayView extends Component {
         };
     }
     sendCommand(command, params = []) {
-        UIManager.dispatchViewManagerCommand(findNodeHandle(this), UIManager["AliyunPlay"].Commands[command], params);
+        UIManager.dispatchViewManagerCommand(findNodeHandle(this), UIManager.getViewManagerConfig("AliyunPlay").Commands[command], params);
     }
     render() {
         return <AliyunPlayer {...this.props}/>;

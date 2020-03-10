@@ -102,7 +102,7 @@ export default class AliyunPlayView extends Component<Props> {
     //@ts-ignore
     UIManager.dispatchViewManagerCommand(
       findNodeHandle(this),
-      UIManager["AliyunPlay"].Commands[command],
+      UIManager.getViewManagerConfig("AliyunPlay").Commands[command],
       params
     );
   }
