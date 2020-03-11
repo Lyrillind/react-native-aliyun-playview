@@ -27,11 +27,11 @@
   "_spec": "react-native-aliyun-playview",
   "_where": "/Users/heyanbei/Desktop/职卓三端项目/ZhiZhuoUser",
   "author": {
-    "name": "bozaigao",
-    "email": "1054539528@qq.com"
+    "name": "Lyrillind",
+    "email": "Lyrillind@outlook.com"
   },
   "bugs": {
-    "url": "https://github.com/bozaigao/react-native-aliyun-playview/issues"
+    "url": "https://github.com/Lyrillind/react-native-aliyun-playview/issues"
   },
   "bundleDependencies": false,
   "dependencies": {
@@ -51,7 +51,7 @@
     "@types/react": "16.4.7",
     "@types/react-native": "0.49.5"
   },
-  "homepage": "https://github.com/bozaigao/react-native-aliyun-playview#readme",
+  "homepage": "https://github.com/Lyrillind/react-native-aliyun-playview#readme",
   "keywords": [
     "aliyun",
     "video",
@@ -63,7 +63,7 @@
   "name": "react-native-aliyun-playview",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bozaigao/react-native-aliyun-playview.git"
+    "url": "git+https://github.com/Lyrillind/react-native-aliyun-playview.git"
   },
   "version": "1.0.3"
 }

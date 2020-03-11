@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.license      = package['license']
   s.platform     = :ios, "8.0"
 
-  s.source       = { :git => "https://github.com/bozaigao/react-native-aliyun-playview" }
+  s.source       = { :git => "https://github.com/Lyrillind/react-native-aliyun-playview" }
   s.source_files  = "ios/AliyunPlayView/**/*.{h,m}"
 
   s.dependency 'React'
