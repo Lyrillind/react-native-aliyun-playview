@@ -44,14 +44,9 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.aliyun.dpa:oss-android-sdk:+'
     //阿里云点播服务
-    // implementation 'com.aliyun.sdk.android:AliyunPlayer:4.5.0-full'
-    // implementation 'com.alivc.conan:AlivcConan:0.9.5'
-    // Old version
-    implementation(name: 'AlivcPlayer-3.4.6', ext: 'aar')
-    implementation(name: 'AlivcReporter-1.2', ext: 'aar')
-    implementation(name: 'AliyunVodPlayer-3.4.6', ext: 'aar')
+    implementation(name: 'AliyunPlayer-4.7.3-full', ext: 'aar')
+    implementation 'com.alivc.conan:AlivcConan:0.9.5'
     implementation files('libs/vod-upload-android-sdk-1.5.0.jar')
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.facebook.react:react-native:+"
