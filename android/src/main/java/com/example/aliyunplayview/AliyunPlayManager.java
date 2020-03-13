@@ -66,13 +66,12 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
 
         mSurfaceView = new SurfaceView(context);
         view.addView(mSurfaceView);
+
         SurfaceHolder holder = mSurfaceView.getHolder();
 
         mAliyunVodPlayer = AliPlayerFactory.createAliPlayer(context);
         mAliyunVodPlayer.setDisplay(holder);
         mAliyunVodPlayer.setScaleMode(IPlayer.ScaleMode.SCALE_TO_FILL);
-
-
 
         //增加surfaceView的监听
         holder.addCallback(new SurfaceHolder.Callback() {
@@ -92,6 +91,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
             @Override
             public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
                 VcPlayerLog.d(TAG, " surfaceDestroyed = surfaceHolder = " + surfaceHolder);
+                mAliyunVodPlayer.setDisplay(null);
             }
         });
 
@@ -150,6 +150,8 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
                 Log.e(TAG, "prepareAsync" + type);
                 break;
         }
+
+        mAliyunVodPlayer.prepare();
     }
 
 
@@ -177,6 +179,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
                 // TODO：待优化的 listener 处理，应该新建个独立文件处理？
                 WritableMap body = Arguments.createMap();
                 body.putDouble("duration", mAliyunVodPlayer.getDuration());
+                Log.e("TAG", "视频准备完成");
                 mEventEmitter.receiveEvent(mAliyunPlayerView.getId(), EVENT_CALLBACK, body);
             }
         });
@@ -188,6 +191,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
                 // TODO：待优化的 listener 处理，应该新建个独立文件处理？
                 WritableMap body = Arguments.createMap();
                 body.putDouble("duration", mAliyunVodPlayer.getDuration());
+                Log.e("TAG", "视频开始渲染");
                 mEventEmitter.receiveEvent(mAliyunPlayerView.getId(), EVENT_CALLBACK, body);
             }
         });
@@ -211,6 +215,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
                     WritableMap body = Arguments.createMap();
                     body.putString("currentTime", info.getExtraValue() + "");
                     body.putString("duration", duration + "");
+                    Log.e("TAG", "currentTime：" + info.getExtraValue());
                     mEventEmitter.receiveEvent(mAliyunPlayerView.getId(), PLAYING_CALLBACK, body);
                 }
             }
