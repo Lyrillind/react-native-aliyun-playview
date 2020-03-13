@@ -49,6 +49,16 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
     private static final int VIDEO_STOP = 3;
     private static final int VIDEO_SEEKTOTIME = 4;
     private static final int VIDEO_REPLAY = 5;
+    // 事件
+    private static final int EAliyunVodPlayerEventPrepareDone = 0;
+    private static final int EAliyunVodPlayerEventPlay = 1;
+    private static final int EAliyunVodPlayerEventFirstFrame = 2;
+    private static final int EAliyunVodPlayerEventPause = 3;
+    private static final int EAliyunVodPlayerEventStop = 4;
+    private static final int EAliyunVodPlayerEventFinish = 5;
+    private static final int EAliyunVodPlayerEventBeginLoading = 6;
+    private static final int EAliyunVodPlayerEventEndLoading = 7;
+    private static final int EAliyunVodPlayerEventSeekDone = 8;
 
     @Override
     public String getName() {
@@ -179,6 +189,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
                 // TODO：待优化的 listener 处理，应该新建个独立文件处理？
                 WritableMap body = Arguments.createMap();
                 body.putDouble("duration", mAliyunVodPlayer.getDuration());
+                body.putInt("event", EAliyunVodPlayerEventPrepareDone);
                 Log.e("TAG", "视频准备完成");
                 mEventEmitter.receiveEvent(mAliyunPlayerView.getId(), EVENT_CALLBACK, body);
             }
@@ -191,6 +202,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
                 // TODO：待优化的 listener 处理，应该新建个独立文件处理？
                 WritableMap body = Arguments.createMap();
                 body.putDouble("duration", mAliyunVodPlayer.getDuration());
+                body.putInt("event", EAliyunVodPlayerEventFirstFrame);
                 Log.e("TAG", "视频开始渲染");
                 mEventEmitter.receiveEvent(mAliyunPlayerView.getId(), EVENT_CALLBACK, body);
             }
@@ -226,6 +238,7 @@ public class AliyunPlayManager extends SimpleViewManager<AliyunPlayerView> {
             public void onCompletion() {
                 WritableMap body = Arguments.createMap();
                 body.putDouble("duration", mAliyunVodPlayer.getDuration());
+                body.putInt("event", EAliyunVodPlayerEventStop);
                 Log.e("TAG", "视频播放完成");
                 mEventEmitter.receiveEvent(mAliyunPlayerView.getId(), EVENT_CALLBACK, body);
             }
