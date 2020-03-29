@@ -47,7 +47,6 @@ dependencies {
     //阿里云点播服务
     implementation(name: 'AliyunPlayer-4.7.3-full', ext: 'aar')
     implementation 'com.alivc.conan:AlivcConan:0.9.5'
-    implementation files('libs/vod-upload-android-sdk-1.5.0.jar')
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.facebook.react:react-native:+"
     implementation 'com.cedarsoftware:json-io:4.12.0'// From node_modules

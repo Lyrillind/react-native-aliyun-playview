@@ -7,12 +7,6 @@ import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.os.Build;
 import android.util.Log;
-import com.alibaba.sdk.android.vod.upload.VODSVideoUploadCallback;
-import com.alibaba.sdk.android.vod.upload.VODSVideoUploadClient;
-import com.alibaba.sdk.android.vod.upload.VODSVideoUploadClientImpl;
-import com.alibaba.sdk.android.vod.upload.model.SvideoInfo;
-import com.alibaba.sdk.android.vod.upload.session.VodHttpClientConfig;
-import com.alibaba.sdk.android.vod.upload.session.VodSessionCreateInfo;
 import com.example.aliyunplayview.util.PermissionChecker;
 import com.example.aliyunplayview.util.ToastUtils;
 import com.example.aliyunplayview.util.Utils;
@@ -81,105 +75,6 @@ public class AliyunRecordModule extends ReactContextBaseJavaModule {
             } else {
                 Log.e("TAG", "图片文件不存在");
             }
-
-            // 1.初始化短视频上传对象
-            final VODSVideoUploadClient vodsVideoUploadClient = new VODSVideoUploadClientImpl(this.reactContext.getApplicationContext());
-            vodsVideoUploadClient.init();
-
-            // 参数请确保存在，如不存在SDK内部将会直接将错误throw Exception
-            // 文件路径保证存在之外因为Android 6.0之后需要动态获取权限，请开发者自行实现获取"文件读写权限".
-            VodHttpClientConfig vodHttpClientConfig = new VodHttpClientConfig.Builder()
-                    .setMaxRetryCount(2)             // 重试次数
-                    .setConnectionTimeout(15 * 1000) // 连接超时
-                    .setSocketTimeout(15 * 1000)     // socket超时
-                    .build();
-
-            // 构建短视频VideoInfo,常见的描述，标题，详情都可以设置
-            SvideoInfo svideoInfo = new SvideoInfo();
-            svideoInfo.setTitle(new File(videoPath).getName());
-            svideoInfo.setDesc("");
-            svideoInfo.setCateId(561654619);
-
-            // 构建点播上传参数(重要)
-            VodSessionCreateInfo vodSessionCreateInfo = new VodSessionCreateInfo.Builder()
-                    .setPartSize(200000)            //设置视频上传切片大小
-                    .setImagePath(imagePath)        // 图片地址
-                    .setVideoPath(videoPath)        // 视频地址
-                    .setAccessKeyId(accessKeyId)    // 临时accessKeyId
-                    .setAccessKeySecret(accessKeySecret)    // 临时accessKeySecret
-                    .setSecurityToken(securityToken)        // securityToken
-                    // .setRequestID(requestID)                // requestID，开发者可以传将获取STS返回的requestID设置也可以不设.
-                    .setIsTranscode(false)                   // 是否转码.如开启转码请AppSever务必监听服务端转码成功的通知
-                    .setSvideoInfo(svideoInfo)              // 短视频视频信息
-                    .setVodHttpClientConfig(vodHttpClientConfig)    //网络参数
-                    .setExpriedTime("20000")
-                    .build();
-
-
-            vodsVideoUploadClient.uploadWithVideoAndImg(vodSessionCreateInfo, new VODSVideoUploadCallback() {
-                @Override
-                public void onUploadSucceed(String videoId, String imageUrl) {
-                    //上传成功返回视频ID和图片URL.
-                    Log.d(TAG, "onUploadSucceed" + "videoId:" + videoId + "imageUrl" + imageUrl);
-                    WritableMap map = Arguments.createMap();
-                    map.putString("vid", videoId);
-                    map.putString("imageUrl", imageUrl);
-//                    promise.resolve(map);
-                    vodsVideoUploadClient.release();
-                    UploadModel uploadModel = new UploadModel();
-                    uploadModel.code = 0;
-                    uploadModel.message = "上传成功";
-                    uploadModel.vid = videoId;
-                    uploadModel.type = type;
-                    sendUploadState(uploadModel);
-                }
-
-                @Override
-                public void onUploadFailed(String code, String message) {
-                    //上传失败返回错误码和message.错误码有详细的错误信息请开发者仔细阅读
-                    Log.d(TAG, "onUploadFailed" + "code" + code + "message" + message);
-//                    promise.reject(code, message);
-                    vodsVideoUploadClient.release();
-                    UploadModel uploadModel = new UploadModel();
-                    uploadModel.code = -1;
-                    uploadModel.message = "上传失败";
-                    sendUploadState(uploadModel);
-                }
-
-                @Override
-                public void onUploadProgress(long uploadedSize, long totalSize) {
-                    //上传的进度回调,非UI线程
-                    Log.d(TAG, "onUploadProgress" + uploadedSize / totalSize);
-                    sendProgrtessState(uploadedSize * 100 / totalSize);
-                    // progress = uploadedSize * 100 / totalSize;
-                    // handler.sendEmptyMessage(0);
-                }
-
-                @Override
-                public void onSTSTokenExpried() {
-                    Log.d(TAG, "onSTSTokenExpried");
-                    //STS token过期之后刷新STStoken，如正在上传将会断点续传
-                    // vodsVideoUploadClient.refreshSTSToken(accessKeyId,accessKeySecret,securityToken,expriedTime);
-//                    promise.reject("401", "token 过期，请重新操作");
-                    vodsVideoUploadClient.release();
-                    UploadModel uploadModel = new UploadModel();
-                    uploadModel.code = -1;
-                    uploadModel.message = "token过期";
-                    sendUploadState(uploadModel);
-                }
-
-                @Override
-                public void onUploadRetry(String code, String message) {
-                    //上传重试的提醒
-                    Log.d(TAG, "onUploadRetry" + "code" + code + "message" + message);
-                }
-
-                @Override
-                public void onUploadRetryResume() {
-                    //上传重试成功的回调.告知用户重试成功
-                    Log.d(TAG, "onUploadRetryResume");
-                }
-            });
         }
     }
 
