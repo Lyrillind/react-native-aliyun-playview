@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.authors      = { 'Lyrillind' => 'Lyrillind@outlook.com' }
   s.homepage     = package['homepage']
   s.license      = package['license']
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "10.0"
 
   s.source       = { :git => "https://github.com/Lyrillind/react-native-aliyun-playview#dev" }
   s.source_files  = "ios/AliyunPlayView/**/*.{h,m}"
